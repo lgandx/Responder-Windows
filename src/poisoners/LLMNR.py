@@ -41,8 +41,8 @@ def IsICMPRedirectPlausible(IP):
 			print color("[Analyze mode: ICMP] This workstation (%s) is not on the same subnet than the DNS server (%s)." % (IP, x), 5)
 			print color("[Analyze mode: ICMP] Use `python tools/Icmp-Redirect.py` for more details.", 5)
 
-if settings.Config.AnalyzeMode:
-	IsICMPRedirectPlausible(settings.Config.Bind_To)
+#if settings.Config.AnalyzeMode:
+	#IsICMPRedirectPlausible(settings.Config.Bind_To)
 
 
 class LLMNR(BaseRequestHandler):  # LLMNR Server class
