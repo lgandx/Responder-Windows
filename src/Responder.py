@@ -23,7 +23,7 @@ from utils import *
 import struct
 banner()
 
-parser = optparse.OptionParser(usage='python %prog -I eth0 -w -r -f\nor:\npython %prog -I eth0 -wrf', version=settings.__version__, prog=sys.argv[0])
+parser = optparse.OptionParser(usage='python %prog -i IP_Addr -w -r -f\nor:\npython %prog -i IP_Addr -wrf', version=settings.__version__, prog=sys.argv[0])
 parser.add_option('-A','--analyze',        action="store_true", help="Analyze mode. This option allows you to see NBT-NS, BROWSER, LLMNR requests without responding.", dest="Analyze", default=False)
 parser.add_option('-i','--ip',             action="store",      help="Local IP to use \033[1m\033[31m(only for OSX)\033[0m", dest="OURIP", metavar="10.0.0.21", default=None)
 
