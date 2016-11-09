@@ -1,9 +1,13 @@
 # Responder And MultiRelay For Windows #
 
 NBT-NS/LLMNR Responder and Cross-Protocol NTLM Relay Windows Version (Beta)
+
 Laurent Gaffie <laurent.gaffie@gmail.com>
+
 http://g-laurent.blogspot.com/
+
 Follow Responder latest updates on twitter:
+
 https://twitter.com/PythonResponder
 
 ## Intro ##
