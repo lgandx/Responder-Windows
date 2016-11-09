@@ -1,9 +1,12 @@
-NBT-NS/LLMNR Responder Windows Version (Beta)
+# Responder And MultiRelay For Windows #
+
+NBT-NS/LLMNR Responder and Cross-Protocol NTLM Relay Windows Version (Beta)
 Laurent Gaffie <laurent.gaffie@gmail.com>
 http://g-laurent.blogspot.com/
+Follow Responder latest updates on twitter:
+https://twitter.com/PythonResponder
 
-INTRODUCTION
-============
+## Intro ##
 
 This tool is first an LLMNR, NBT-NS and MDNS responder, it will answer to 
 *specific* NBT-NS (NetBIOS Name Service) queries based on their name 
@@ -17,8 +20,7 @@ suffix.
 
 MultiRelay has also been ported to this Windows version, allowing a pentest to pivot across compromises.
 
-FEATURES
-========
+## Features ##
 
 - Experimental Windows Version.
 
@@ -34,8 +36,7 @@ FEATURES
 
 - Best way to collect hashes with this Windows version: Responder.exe -i IP_Addr -rPv
 
-INSTALLING
-==========
+## Installing ##
 
 - Binary:
 
@@ -60,8 +61,7 @@ Your binary will be located in the folder dist/
 
 You can run Responder as usual from the source folder (with python installed): python Responder.py 
 
-CONSIDERATIONS
-==============
+## Considerations ##
 
 - Make sure a conventional Responder.conf file is present in Responder running directory.
 
@@ -69,11 +69,8 @@ CONSIDERATIONS
 
 - For now, SMB rogue authentication server is *not* supported in Responder and MultiRelay.
 
-Follow Responder latest updates on twitter:
-https://twitter.com/PythonResponder
 
-COPYRIGHT
-=========
+## Copyright ##
 
 NBT-NS/LLMNR/MDNS Responder
 Created and maintained by Laurent Gaffie
