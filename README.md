@@ -73,6 +73,12 @@ You can run Responder as usual from the source folder (with python installed): p
 
 - For now, SMB rogue authentication server is *not* supported in Responder and MultiRelay.
 
+## Donation ##
+
+You can contribute to this project by donating to the following BTC address:
+
+1Pv9rZMNfy9hsW19eQhNGs22gY9sf6twjW
+
 
 ## Copyright ##
 
